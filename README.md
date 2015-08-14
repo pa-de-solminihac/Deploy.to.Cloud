@@ -16,6 +16,7 @@ This repository contains dockerfiles and instructions for Rocket.Chat deployment
 * Meteor Galaxy
 * Salesforce's Heroku
 * Nitrous.io
+* sloppy.io
 * Digital Ocean
 * Rackspace 
 
