@@ -4,7 +4,7 @@
 
 Rocket.Chat aims to be cloud deployable, in a performant and scalable way, across all global cloud service providers.  
 
-In addition, Rocket.Chat is package-ready for Linux package builders and maintainers.
+In addition, Rocket.Chat aims to support packaged/bundled instllation for FreeBSD and all major Linux distributions.
 
 This repository contains dockerfiles and instructions for Rocket.Chat deployment and configuration on:
 
@@ -19,6 +19,11 @@ This repository contains dockerfiles and instructions for Rocket.Chat deployment
 * sloppy.io
 * Digital Ocean
 * Rackspace 
+
+It also contains bundling/packaging details for:
+
+* FreeBSD
+* Debian
 
 The list is highly America-centric.  Global contributors - please submit PRs!
 
