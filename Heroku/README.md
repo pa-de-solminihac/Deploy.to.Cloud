@@ -27,7 +27,7 @@ This is the option that gives you full control.  It is the preferred option for 
 
 First make sure you have the following installed:
 
-* git 
+* git
 * Heroku CLI
 
 Next, checkout the latest version of Rocket.Chat:
@@ -39,7 +39,7 @@ git clone https://github.com/RocketChat/Rocket.Chat
 Change into the `Rocket.Chat` directory, and create your Heroku app:
 
 ~~~
-heroku apps:create  --addons mongolab:sandbox,logentries:tryit -b https://github.com/RocketChat/heroku-buildpack-meteor <your app name>
+heroku apps:create  --addons mongolab:sandbox,logentries:le_tryit -b https://github.com/RocketChat/heroku-buildpack-meteor <your app name>
 ~~~
 
 Choose \<your app name> carefully, as your Rocket.Chat will then be accessible at:
@@ -56,7 +56,7 @@ heroku config:add ROOT_URL=https://<your app name>.herokuapp.com/
 
 If your app failed to start, check and make sure you have ROOT_URL set.
 
-Heroku app deployment is triggered by git commits - to Heroku's repos, and not github.   
+Heroku app deployment is triggered by git commits - to Heroku's repos, and not github.
 
 You are almost ready to deploy and stage your own instance.  But you must first wire up the git repos to heroku.
 
