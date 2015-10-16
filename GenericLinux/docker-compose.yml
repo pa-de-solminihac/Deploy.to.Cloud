@@ -15,4 +15,4 @@ web:
   volumes:
     - logs:/home/app/logs
   expose:
-    - "80"
+    - "3000"
