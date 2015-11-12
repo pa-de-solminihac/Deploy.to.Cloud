@@ -8,6 +8,7 @@ In addition, Rocket.Chat aims to support packaged/bundled instllation for FreeBS
 
 This repository contains dockerfiles and instructions for Rocket.Chat deployment and configuration on:
 
+* Aliyun
 * IBM Bluemix
 * Amazon Web Services
 * Google Computing Platform
@@ -25,6 +26,5 @@ It also contains bundling/packaging details for:
 * FreeBSD
 * Debian
 
-The list is highly America-centric.  Global contributors - please submit PRs!
 
 systemd support for Linux package builders is available under the systemd directory.
