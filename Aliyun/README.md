@@ -14,82 +14,93 @@ However, lower performance configuration has been tested on a VPS with:
 * 10 GB disk
 * 1 core
 
+Follow these steps to install Rocket.Chat.
 
+## Update Ubuntu repo lists and Install curl
 
-Two ways to deploy Rocket.Chat to Heroku:
+After you ssh to the VPS:
 
-* easy one click
-* customized command line
+<<screenshot>>
 
+`apt-get update`
 
-## One Click automatic deploy
+and
 
+`apt-get install curl`
 
-Try clicking the button below, and either login or create a new account, then follow all prompts.
+## Install docker
 
-[One-Click Deploy](https://heroku.com/deploy?template=https://github.com/RocketChat/Rocket.Chat/tree/master)
+Run this command:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/RocketChat/Rocket.Chat/tree/master)
+`curl -sSL https://get.docker.com/ | sh`
 
-If everything goes well, you will have your own instance of Rocket.Chat running.  
+Docker should be installed, verify it:
 
-If not, please raise an issue.
+`docker ps`
 
-## Customized command line for developers
+<<screenshot>>
 
-This is the option that gives you full control.  It is the preferred option for developers.  
+## Install docker-compose
 
-First make sure you have the following installed:
+Install docker-compose, follow the [latest release instructions](https://github.com/docker/compose/releases)
 
-* git
-* Heroku CLI
+For release 1.5.0, you can use:
 
-Next, checkout the latest version of Rocket.Chat:
+```
+curl -L https://github.com/docker/compose/releases/download/1.5.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+```
+*(if or when this is blocked, you'll have to obtain Linux-x86_64 docker-compose binary via other means)*
 
-~~~
-git clone https://github.com/RocketChat/Rocket.Chat
-~~~
+Next, allow execution of docker-compose:
 
-Change into the `Rocket.Chat` directory, and create your Heroku app:
+`chmod +x /usr/local/bin/docker-compose`
 
-~~~
-heroku apps:create  --addons mongolab:sandbox,logentries:le_tryit -b https://github.com/RocketChat/heroku-buildpack-meteor <your app name>
-~~~
+## Create directories for Rocket.Chat
 
-Choose \<your app name> carefully, as your Rocket.Chat will then be accessible at:
+First,
 
-~~~
-https://<your app name>.herokuapps.com/
-~~~
+`mkdir /home/rocketchat`
 
-Next, you *MUST* set the ROOT_URL environment variable:
+Then,
 
-~~~
-heroku config:add ROOT_URL=https://<your app name>.herokuapp.com/
-~~~
+`cd /home/rocketchat`
 
-If your app failed to start, check and make sure you have ROOT_URL set.
+Make two more directories for the mongodb database:
 
-Heroku app deployment is triggered by git commits - to Heroku's repos, and not github.
+```
+mkdir data
+mkdir dump
+```
 
-You are almost ready to deploy and stage your own instance.  But you must first wire up the git repos to heroku.
+Create a `docker-compose.yml` file with the following content:
 
-~~~
-git remote add heroku https://git.heroku.com/<your app name>.git
-~~~
+```
+db:
+  image: mongo
+  volumes:
+    - $PWD/data:/data/db
+    - $PWD/dump:/dump
+  command: mongod --smallfiles
+web:
+  image: rocketchat/rocket.chat 
+  environment:
+    - MONGO_URL=mongodb://db:27017/meteor
+    - ROOT_URL=http://your-ip-address:8818
+  links:
+    - db:db
+  ports:
+    - 8818:3000
+```
+Make sure you customize the file with `your-ip-address` in the `MONGO_URL` env variable.
 
-Finally, deploy and stage your app by:
+## Pull the required docker images
 
-~~~
-git push heroku master
-~~~
+This will download the required docker images, and may take some time.  
 
-Rocket.Chat should now be running.  If you encounter problems, please raise an issue.
+This is done only the first time, or when you want to update Rocket.Chat.
 
+```
+docker pull mongo
+docker pull rocketchat/rocket.chat
+```
 
-### Caveats
-* To add any service to an app, even if it is free, you will need to register a valid credit card with Heroku.   Rocket.Chat needs both mongolab and logenteries services.
-* Heroku (actually CloudFoundry) uses custom buildpacks to stage applications.  The buildpack used by Rocket.Chat can take a very long time to build - since it needs to download Meteor and build the server image every time.
-* You *must*  set the ROOT_URL environment variable, as shown above, otherwise the server side will crash.
-* Note mongolab's free sandbox plan does not support oplog tailing - check other plans if you need oplog.
-* If you are scaling to multi-dynos on Heroku, and you have clients/customers still using older browsers that do not support WebSocket, you need to be mindful of sticky session support (BETA) on Heroku - see [sticky sessions on Heroku](https://devcenter.heroku.com/articles/session-affinity).
