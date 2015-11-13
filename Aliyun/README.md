@@ -20,11 +20,13 @@ Follow these steps to install Rocket.Chat.
 
 After you ssh to the VPS:
 
-<<screenshot>>
+![aliyun shell](https://raw.githubusercontent.com/Sing-Li/bbug/master/images/aliyun1.png)
+
+Run the command:
 
 `apt-get update`
 
-and
+followed by:
 
 `apt-get install curl`
 
@@ -38,7 +40,8 @@ Docker should be installed, verify it:
 
 `docker ps`
 
-<<screenshot>>
+![aliyun docker verify](https://raw.githubusercontent.com/Sing-Li/bbug/master/images/aliyun2.png)
+
 
 ## Install docker-compose
 
@@ -71,6 +74,7 @@ Make two more directories for the mongodb database:
 mkdir data
 mkdir dump
 ```
+## Create customized docker-compose.yml
 
 Create a `docker-compose.yml` file with the following content:
 
@@ -103,4 +107,29 @@ This is done only the first time, or when you want to update Rocket.Chat.
 docker pull mongo
 docker pull rocketchat/rocket.chat
 ```
+
+## Start the mongodb database
+
+Run:
+
+`docker-compose up -d db`
+
+Mongo supports 24 x 7 operations and live backup.  You should not need to restart it too frequently.  See  [mongodb documentations](https://docs.mongodb.org/manual/) for proper operation and management of a mongo server.
+
+Wait a couple of minute for mongo to start properly.
+
+## Start your Rocket.Chat server
+
+Now start the Rocket.Chat server:
+
+`docker-compose up -d web`
+
+Rocket.Chat should be ready in a minute or two.
+
+## Access your Rocket.Chat on Aliyun
+
+Your Rocket.Chat server can now be accessed over the Internet via:
+
+`http://your-ip-address:8818/`
+
 
