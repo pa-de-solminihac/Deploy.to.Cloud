@@ -12,7 +12,5 @@ web:
     - MAIL_URL=smtp://USERNAME:PASSWORD@HOST:PORT/
   links:
     - db:db
-  volumes:
-    - logs:/home/app/logs
   expose:
     - "3000"
