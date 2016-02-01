@@ -1,9 +1,9 @@
 # Deploying Rocket.Chat to Amazon Web Services
 
-This guide covers the following:
-1. Hosting rocket.chat on an Amazon EC2 instance
-2. Hosting a domain name with Amazon Route 53
-3. Securing your server with a free SSL certificate from Let's Encrypt
+This guide covers the following:  
+1. Hosting rocket.chat on an Amazon EC2 instance  
+2. Hosting a domain name with Amazon Route 53  
+3. Securing your server with a free SSL certificate from Let's Encrypt  
 
 ### Table of Contents
 [1. Launch an EC2 Instance](#1-launch-an-ec2-instance)  
