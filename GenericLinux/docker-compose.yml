@@ -5,7 +5,7 @@ db:
     - ./data/dump:/dump
   command: mongod --smallfiles
 web:
-  image: rocketchat/rocket.chat 
+  image: rocketchat/rocket.chat
   environment:
     - MONGO_URL=mongodb://db:27017/meteor
     - ROOT_URL=https://rocketchat.test
@@ -16,3 +16,5 @@ web:
     - logs:/home/app/logs
   expose:
     - "3000"
+  ports:
+    - "3000:3000"
